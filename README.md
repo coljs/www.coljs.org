@@ -24,14 +24,9 @@ $ bower install
 3. Abra su navegador y verifique sus cambios en ```http://www.coljs.org```
 
 ### Flujo de desarrollo
-1. Modifique el diseño o estructura de cualquiera de los
-componentes dentro del directorio ```./lib```
-2. Corra ```grunt compile```
+1. Corra ```grunt watch```
+2. Modifique el diseño o estructura de cualquiera de los componentes dentro del directorio ```./lib```
 3. En su navegador, abra el archivo ```./public/index.html```
-
-TODO: Usar watch para correr ```grunt compile``` ante
-cualquier modificación de los archivos en ```./lib```
-
 
 ## Despligue
 La tarea grunt de despliegue corre ```compile``` y 
