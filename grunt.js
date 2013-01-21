@@ -19,7 +19,7 @@ module.exports = function (grunt) {
       }
     },
 
-    /* Concat JS files */
+    /* Concat JS files per page*/
     concat: {
       options: {
         separator: ';',
@@ -110,6 +110,10 @@ module.exports = function (grunt) {
       }
     },
 
+    compass: {
+      
+    },
+
     watch: {
       files: ['<%= dirs.src %>/**/*'],
       task: ['compile']
@@ -118,6 +122,7 @@ module.exports = function (grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-jade');
   grunt.loadNpmTasks('grunt-contrib-stylus');
+  grunt.loadNpmTasks('grunt-contrib-compass');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-exec');
 
