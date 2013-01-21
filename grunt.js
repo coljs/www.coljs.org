@@ -28,8 +28,33 @@ module.exports = function (grunt) {
       },
 
       home: {
-        src: ['lib/home/*.js'],
-        dest: 'public/javascript/home.js'
+        src: ['<%= dirs.src %>/home/*.js'],
+        dest: '<%= dirs.dest %>/javascript/home.js'
+      },
+
+      sponsors: {
+        src: ['<%= dirs.src %>/sponsors/*.js'],
+        dest: '<%= dirs.dest %>/javascript/sponsors.js'
+      },
+
+      blog: {
+        src: ['<%= dirs.src %>/blog/*.js'],
+        dest: '<%= dirs.dest %>/javascript/blog.js'
+      },
+
+      communities: {
+        src: ['<%= dirs.src %>/communities/*.js'],
+        dest: '<%= dirs.dest %>/javascript/communities.js'
+      },
+
+      hangouts: {
+        src: ['<%= dirs.src %>/hangouts/*.js'],
+        dest: '<%= dirs.dest %>/javascript/hangouts.js'
+      },
+
+      about: {
+        src: ['<%= dirs.src %>/about/*.js'],
+        dest: '<%= dirs.dest %>/javascript/about.js'
       }
     },
 
