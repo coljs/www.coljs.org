@@ -1,2 +1,1 @@
-Todo el contenido de este directorio es autogenerado.
-No cree ningun tipo de archivo dentro de él. Déjelo vacio.
+Todo el contenido de este directorio es autogenerado, excepto el directorio para imágenes.
