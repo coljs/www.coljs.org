@@ -2,8 +2,15 @@ module.exports = function (grunt) {
 
   // Project configuration.
   grunt.initConfig({
+    pkg: grunt.file.readJSON('package.json'),
+
+    dirs: {
+      src: 'lib',
+      dest: 'public'
+    },
+
     lint: {
-      all: ['grunt.js', 'lib/**/*.js']
+      all: ['grunt.js', '<%= dirs.src %>/**/*.js']
     },
 
     jshint: {
@@ -12,7 +19,19 @@ module.exports = function (grunt) {
       }
     },
 
-    concat: {},
+    /* Concat JS files */
+    concat: {
+      options: {
+        separator: ';',
+        banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
+        '<%= grunt.template.today("yyyy-mm-dd") %> */'
+      },
+
+      home: {
+        src: ['lib/home/*.js'],
+        dest: 'public/javascript/home.js'
+      }
+    },
 
     min: {},
 
@@ -21,17 +40,19 @@ module.exports = function (grunt) {
         options: {
           data: {
             debug: false,
-            timestamp: "<%= grunt.template.today() %>"
+            timestamp: '<%= grunt.template.today() %>',
+            banner: '<!-- <%= pkg.name %> - v<%= pkg.version %> - ' +
+                    '<%= grunt.template.today("yyyy-mm-dd") %> -->'
           },
           pretty: true
         },
         files: {
-          "public/home.html"        : ["lib/home/*.jade"],
-          "public/sponsors.html"    : ["lib/sponsors/*.jade"],
-          "public/blog.html"        : ["lib/blog/*.jade"],
-          "public/communities.html" : ["lib/communities/*.jade"],
-          "public/hangouts.html"    : ["lib/hangouts/*.jade"],
-          "public/about.html"       : ["lib/about/*.jade"]
+          '<%= dirs.dest %>/home.html'        : ['<%= dirs.src %>/home/*.jade'],
+          '<%= dirs.dest %>/sponsors.html'    : ['<%= dirs.src %>/sponsors/*.jade'],
+          '<%= dirs.dest %>/blog.html'        : ['<%= dirs.src %>/blog/*.jade'],
+          '<%= dirs.dest %>/communities.html' : ['<%= dirs.src %>/communities/*.jade'],
+          '<%= dirs.dest %>/hangouts.html'    : ['<%= dirs.src %>/hangouts/*.jade'],
+          '<%= dirs.dest %>/about.html'       : ['<%= dirs.src %>/about/*.jade']
         }
       }
     },
@@ -40,13 +61,13 @@ module.exports = function (grunt) {
       compile: {
         options: {
           paths: [
-            'lib/home',
-            'lib/sponsors',
-            'lib/blog',
-            'lib/communities',
-            'lib/hangouts',
-            'lib/layout',
-            'lib/about'
+            '<%= dirs.src %>/home',
+            '<%= dirs.src %>/sponsors',
+            '<%= dirs.src %>/blog',
+            '<%= dirs.src %>/communities',
+            '<%= dirs.src %>/hangouts',
+            '<%= dirs.src %>/layout',
+            '<%= dirs.src %>/about'
           ],
           urlfunc: 'embedurl' // use embedurl('test.png') in our code to trigger Data URI embedding
           /*use: [
@@ -54,18 +75,18 @@ module.exports = function (grunt) {
           ]*/
         },
         files: {
-          'public/styles/home.css'        : 'lib/home/home.styl',
-          'public/styles/sponsors.css'    : 'lib/sponsors/sponsors.styl',
-          'public/styles/blog.css'        : 'lib/blog/blog.styl',
-          'public/styles/communities.css' : 'lib/communities/communities.styl',
-          'public/styles/hangouts.css'    : 'lib/hangouts/hangouts.styl',
-          'public/styles/about.css'       : 'lib/about/about.styl'
+          '<%= dirs.dest %>/styles/home.css'        : '<%= dirs.src %>/home/home.styl',
+          '<%= dirs.dest %>/styles/sponsors.css'    : '<%= dirs.src %>/sponsors/sponsors.styl',
+          '<%= dirs.dest %>/styles/blog.css'        : '<%= dirs.src %>/blog/blog.styl',
+          '<%= dirs.dest %>/styles/communities.css' : '<%= dirs.src %>/communities/communities.styl',
+          '<%= dirs.dest %>/styles/hangouts.css'    : '<%= dirs.src %>/hangouts/hangouts.styl',
+          '<%= dirs.dest %>/styles/about.css'       : '<%= dirs.src %>/about/about.styl'
         }
       }
     },
 
     watch: {
-      files: ['lib/**/*'],
+      files: ['<%= dirs.src %>/**/*'],
       task: ['compile']
     }
   });
