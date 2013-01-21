@@ -7,6 +7,15 @@ instalar las siguientes dependencias:
 * **Node.js**: http://nodejs.org/
 
 * **Bower y Grunt**: ```$ sudo npm install -g bower grunt```
+* **Compass**: ```$ sudo gem update --system && sudo gem install compass --no-rdoc --no-ri```
+
+## Instalación
+```
+$ git clone git@github.com:c4milo/www.coljs.org.git
+$ cd www.coljs.org
+$ npm install
+$ bower install
+```
 
 ## Flujo de trabajo
 ### Administración de Contenido
