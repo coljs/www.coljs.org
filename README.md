@@ -14,6 +14,10 @@ instalar las siguientes dependencias:
 2. Corra ```$ grunt deploy```
 3. Abra su navegador y verifique sus cambios en ```http://www.coljs.org```
 
+TODO: Usar watch para correr grunt deploy ante
+cualquier modificación de los archivos en ```./lib```
+
+
 ### Flujo de desarrollo
 1. Modifique el diseño o estructura de cualquiera de los
 componentes dentro del directorio ```./lib```
