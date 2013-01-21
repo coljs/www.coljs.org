@@ -32,9 +32,14 @@ componentes dentro del directorio ```./lib```
 TODO: Usar watch para correr ```grunt compile``` ante
 cualquier modificación de los archivos en ```./lib```
 
-## Preprocesador
 
 ## Despligue
+La tarea grunt de despliegue corre ```compile``` y 
+actualiza el branch ```gh-pages``` in Github, con el resultado. 
+
+```
+$ grunt deploy
+```
 
 ## License
 (The MIT License)
