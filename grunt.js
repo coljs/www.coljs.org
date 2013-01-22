@@ -132,7 +132,7 @@ module.exports = function (grunt) {
       },
 
       deploy: {
-        command: 'git push origin HEAD:gh-pages',
+        command: 'git push origin HEAD:gh-pages 2>&1',
         stdout: true
       }
     },
