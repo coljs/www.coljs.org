@@ -50,6 +50,9 @@ module.exports = function (grunt) {
     jshint: {
       options: {
         browser: true
+      },
+      globals: {
+        jQuery: true
       }
     },
 
@@ -88,8 +91,8 @@ module.exports = function (grunt) {
     },
 
     watch: {
-      files: ['<%= dirs.src %>/**/*'],
-      task: ['default']
+      files: ['<%= dirs.src %>/**/*', 'content/**/*'],
+      task: 'default'
     },
 
     exec: {
