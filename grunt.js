@@ -1,9 +1,32 @@
+var fs = require('fs');
+
 module.exports = function (grunt) {
 
-  //pages
+  //options
   var concatOpts = {};
-  ['home', 'sponsors', 'blog'].forEach(function(page) {
-    console.log(page);
+  var minifyOpts = {};
+  var jadeFiles = {};
+  var stylusFiles = {};
+  var stylusPaths = [];
+
+  //Builds options for frameworks used to avoid naming files individually
+  var pages = fs.readdirSync('./lib');
+  pages.forEach(function(page) {
+    if (page == 'layout') return;
+
+    concatOpts[page] = {
+      src: ['<%= dirs.src %>' + page + '/*.js'],
+      dest: '<%= dirs.dest %>/javascript/' + page + '.js'
+    };
+
+    minifyOpts[page] = {
+      src: ['<%= dirs.dest %>/javascript/' + page + '.js'],
+      dest: '<%= dirs.dest %>/javascript/' + page + '.min.js'
+    };
+
+    jadeFiles['<%= dirs.dest %>/' + page + '.html'] = ['<%= dirs.src %>/' + page + '/*.jade'];
+    stylusFiles['<%= dirs.dest %>/styles/' + page + '.css' ] = '<%= dirs.src %>/' + page + '/*.styl';
+    stylusPaths.push('<%= dirs.src %>/' + page);
   });
 
   // Project configuration.
@@ -31,69 +54,9 @@ module.exports = function (grunt) {
     },
 
     /* Concat JS files per page*/
-    concat: {
-      home: {
-        src: ['<%= dirs.src %>/home/*.js'],
-        dest: '<%= dirs.dest %>/javascript/home.js'
-      },
+    concat: concatOpts,
 
-      sponsors: {
-        src: ['<%= dirs.src %>/sponsors/*.js'],
-        dest: '<%= dirs.dest %>/javascript/sponsors.js'
-      },
-
-      blog: {
-        src: ['<%= dirs.src %>/blog/*.js'],
-        dest: '<%= dirs.dest %>/javascript/blog.js'
-      },
-
-      communities: {
-        src: ['<%= dirs.src %>/communities/*.js'],
-        dest: '<%= dirs.dest %>/javascript/communities.js'
-      },
-
-      hangouts: {
-        src: ['<%= dirs.src %>/hangouts/*.js'],
-        dest: '<%= dirs.dest %>/javascript/hangouts.js'
-      },
-
-      about: {
-        src: ['<%= dirs.src %>/about/*.js'],
-        dest: '<%= dirs.dest %>/javascript/about.js'
-      }
-    },
-
-    min: {
-       home: {
-        src: ['<%= dirs.dest %>/javascript/home.js'],
-        dest: '<%= dirs.dest %>/javascript/home.min.js'
-      },
-
-      sponsors: {
-        src: ['<%= dirs.dest %>/javascript/sponsors.js'],
-        dest: '<%= dirs.dest %>/javascript/sponsors.min.js'
-      },
-
-      blog: {
-        src: ['<%= dirs.dest %>/javascript/blog.js'],
-        dest: '<%= dirs.dest %>/javascript/blog.min.js'
-      },
-
-      communities: {
-        src: ['<%= dirs.dest %>/javascript/communities.js'],
-        dest: '<%= dirs.dest %>/javascript/communities.min.js'
-      },
-
-      hangouts: {
-        src: ['<%= dirs.dest %>/javascript/hangouts.js'],
-        dest: '<%= dirs.dest %>/javascript/hangouts.min.js'
-      },
-
-      about: {
-        src: ['<%= dirs.dest %>/javascript/about.js'],
-        dest: '<%= dirs.dest %>/javascript/about.min.js'
-      }
-    },
+    min: minifyOpts,
 
     jade: {
       compile: {
@@ -106,14 +69,7 @@ module.exports = function (grunt) {
           },
           pretty: true
         },
-        files: {
-          '<%= dirs.dest %>/home.html'        : ['<%= dirs.src %>/home/*.jade'],
-          '<%= dirs.dest %>/sponsors.html'    : ['<%= dirs.src %>/sponsors/*.jade'],
-          '<%= dirs.dest %>/blog.html'        : ['<%= dirs.src %>/blog/*.jade'],
-          '<%= dirs.dest %>/communities.html' : ['<%= dirs.src %>/communities/*.jade'],
-          '<%= dirs.dest %>/hangouts.html'    : ['<%= dirs.src %>/hangouts/*.jade'],
-          '<%= dirs.dest %>/about.html'       : ['<%= dirs.src %>/about/*.jade']
-        }
+        files: jadeFiles
       }
     },
 
@@ -121,28 +77,13 @@ module.exports = function (grunt) {
       compile: {
         options: {
           /* paths for @import() to look for */
-          paths: [
-            '<%= dirs.src %>/home',
-            '<%= dirs.src %>/sponsors',
-            '<%= dirs.src %>/blog',
-            '<%= dirs.src %>/communities',
-            '<%= dirs.src %>/hangouts',
-            '<%= dirs.src %>/layout',
-            '<%= dirs.src %>/about'
-          ],
+          paths: stylusPaths,
           urlfunc: 'embedurl' // use embedurl('test.png') in our code to trigger Data URI embedding
           /*use: [
             require('blah') // use stylus plugin at compile time
           ]*/
         },
-        files: {
-          '<%= dirs.dest %>/styles/home.css'        : '<%= dirs.src %>/home/home.styl',
-          '<%= dirs.dest %>/styles/sponsors.css'    : '<%= dirs.src %>/sponsors/sponsors.styl',
-          '<%= dirs.dest %>/styles/blog.css'        : '<%= dirs.src %>/blog/blog.styl',
-          '<%= dirs.dest %>/styles/communities.css' : '<%= dirs.src %>/communities/communities.styl',
-          '<%= dirs.dest %>/styles/hangouts.css'    : '<%= dirs.src %>/hangouts/hangouts.styl',
-          '<%= dirs.dest %>/styles/about.css'       : '<%= dirs.src %>/about/about.styl'
-        }
+        files: stylusFiles
       }
     },
 
