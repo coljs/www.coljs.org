@@ -1,5 +1,11 @@
 module.exports = function (grunt) {
 
+  //pages
+  var concatOpts = {};
+  ['home', 'sponsors', 'blog'].forEach(function(page) {
+    console.log(page);
+  });
+
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -58,9 +64,34 @@ module.exports = function (grunt) {
     },
 
     min: {
-      dist: {
-        src: ['<%= dirs.dest %>/javascript/**/*.js'],
-        dest: '<%= dirs.dest %>/javascript/*.min.js'
+       home: {
+        src: ['<%= dirs.dest %>/javascript/home.js'],
+        dest: '<%= dirs.dest %>/javascript/home.min.js'
+      },
+
+      sponsors: {
+        src: ['<%= dirs.dest %>/javascript/sponsors.js'],
+        dest: '<%= dirs.dest %>/javascript/sponsors.min.js'
+      },
+
+      blog: {
+        src: ['<%= dirs.dest %>/javascript/blog.js'],
+        dest: '<%= dirs.dest %>/javascript/blog.min.js'
+      },
+
+      communities: {
+        src: ['<%= dirs.dest %>/javascript/communities.js'],
+        dest: '<%= dirs.dest %>/javascript/communities.min.js'
+      },
+
+      hangouts: {
+        src: ['<%= dirs.dest %>/javascript/hangouts.js'],
+        dest: '<%= dirs.dest %>/javascript/hangouts.min.js'
+      },
+
+      about: {
+        src: ['<%= dirs.dest %>/javascript/about.js'],
+        dest: '<%= dirs.dest %>/javascript/about.min.js'
       }
     },
 
