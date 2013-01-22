@@ -158,7 +158,7 @@ module.exports = function (grunt) {
       },
 
       commit: {
-        command: 'git commit -m "Despliega últimos cambios 2>&1"',
+        command: 'git commit -m "Despliega últimos cambios" 2>&1',
         stdout: true
       },
 
