@@ -19,11 +19,11 @@ $ bower install
 ## Flujo de trabajo
 ### Administración de Contenido
 1. Modifique contenido dentro del directorio ```./content```
-2. Corra ```$ grunt deploy```
+2. Corra ```$ grunt deploy --force```
 3. Abra su navegador y verifique sus cambios en ```http://www.coljs.org```
 
 ### Flujo de desarrollo
-1. Corra ```grunt watch```
+1. Corra ```grunt watch --force```
 2. Modifique el diseño o estructura de cualquiera de los componentes dentro del directorio ```./lib```
 3. En su navegador, abra el archivo ```./public/index.html```
 
@@ -32,7 +32,7 @@ La tarea grunt de despliegue corre ```compile``` y
 actualiza el branch ```gh-pages``` in Github, con el resultado. 
 
 ```
-$ grunt deploy
+$ grunt deploy --force
 ```
 
 ## License
