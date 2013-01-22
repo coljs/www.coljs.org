@@ -7,7 +7,6 @@ instalar las siguientes dependencias:
 * **Node.js**: http://nodejs.org/
 
 * **Bower y Grunt**: ```$ sudo npm install -g bower grunt```
-* **Compass**: ```$ sudo gem update --system && sudo gem install compass --no-rdoc --no-ri```
 
 ## Instalación
 ```

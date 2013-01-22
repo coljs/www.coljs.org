@@ -58,7 +58,12 @@ module.exports = function (grunt) {
       }
     },
 
-    min: {},
+    min: {
+      dist: {
+        src: ['lib/**/*.js'],
+        dest: '<%= dirs.dest %>/javascript/*.min.js'
+      }
+    },
 
     jade: {
       compile: {
@@ -85,6 +90,7 @@ module.exports = function (grunt) {
     stylus: {
       compile: {
         options: {
+          /* paths for @import() to look for */
           paths: [
             '<%= dirs.src %>/home',
             '<%= dirs.src %>/sponsors',
@@ -96,7 +102,7 @@ module.exports = function (grunt) {
           ],
           urlfunc: 'embedurl' // use embedurl('test.png') in our code to trigger Data URI embedding
           /*use: [
-            require('fluidity') // use stylus plugin at compile time
+            require('blah') // use stylus plugin at compile time
           ]*/
         },
         files: {
@@ -110,23 +116,31 @@ module.exports = function (grunt) {
       }
     },
 
-    compass: {
-      
-    },
-
     watch: {
       files: ['<%= dirs.src %>/**/*'],
-      task: ['compile']
+      task: ['default']
+    },
+
+    exec: {
+      add: {
+        command: 'git add public/*'
+      },
+
+      commit: {
+        command: 'git commit -m "Despliega últimos cambios"'
+      },
+
+      deploy: {
+        command: 'git push origin gh-pages'
+      }
     }
   });
 
   grunt.loadNpmTasks('grunt-contrib-jade');
   grunt.loadNpmTasks('grunt-contrib-stylus');
-  grunt.loadNpmTasks('grunt-contrib-compass');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-exec');
 
-
-  // Default task.
-  grunt.registerTask('default', 'lint jade stylus concat min');
+  grunt.registerTask('deploy', 'lint jade stylus concat min');
+  grunt.registerTask('default', 'lint jade stylus concat');
 };

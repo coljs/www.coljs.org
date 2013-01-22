@@ -2,9 +2,8 @@
     "name": "coljs.org",
     "description": "ColombiaJS website",
     "version": "0.1.0",
-    "private": true,
     "homepage": "http://www.coljs.org",
-    "repository": "git://github.com/colombiajs/coljs.org",
+    "repository": "git://github.com/colombiajs/www.coljs.org",
     "engines": {
         "node": ">=0.8.x"
     },
@@ -13,8 +12,7 @@
       "grunt-exec": "0.3.0",
       "grunt-contrib-stylus": "0.3.1",
       "grunt-contrib-jade": "0.3.1",
-      "grunt-contrib-watch": "0.2.0rc5",
-      "grunt-contrib-compass": "0.1.0"
+      "grunt-contrib-watch": "0.2.0rc5"
     },
     "dependencies": {}
 }
