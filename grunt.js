@@ -122,15 +122,18 @@ module.exports = function (grunt) {
 
     exec: {
       add: {
-        command: 'git add public/*'
+        command: 'git add public/*',
+        stdout: true
       },
 
       commit: {
-        command: 'git commit -m "Despliega últimos cambios"'
+        command: 'git commit -m "Despliega últimos cambios"',
+        stdout: true
       },
 
       deploy: {
-        command: 'git push origin HEAD:gh-pages'
+        command: 'git push origin HEAD:gh-pages',
+        stdout: true
       }
     },
 
