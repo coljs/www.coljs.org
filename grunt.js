@@ -131,7 +131,17 @@ module.exports = function (grunt) {
       },
 
       deploy: {
-        command: 'git push origin gh-pages'
+        command: 'git push origin HEAD:gh-pages'
+      }
+    },
+
+    copy: {
+      dist: {
+        files: {
+          "<%= dir.dest %>/javascript": [
+            "third-party/jquery/jquery.min.js"
+          ]
+        }
       }
     }
   });
@@ -139,8 +149,9 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-jade');
   grunt.loadNpmTasks('grunt-contrib-stylus');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-exec');
 
-  grunt.registerTask('deploy', 'lint jade stylus concat min');
-  grunt.registerTask('default', 'lint jade stylus concat');
+  grunt.registerTask('deploy', 'lint jade stylus concat min copy');
+  grunt.registerTask('default', 'lint jade stylus concat copy');
 };
