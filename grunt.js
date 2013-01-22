@@ -4,6 +4,11 @@ module.exports = function (grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
+    meta: {
+      banner: '/* <%= pkg.name %> - v<%= pkg.version %> - ' +
+              '<%= grunt.template.today("yyyy-mm-dd") %> */'
+    },
+
     dirs: {
       src: 'lib',
       dest: 'public'
@@ -21,12 +26,6 @@ module.exports = function (grunt) {
 
     /* Concat JS files per page*/
     concat: {
-      options: {
-        separator: ';',
-        banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
-        '<%= grunt.template.today("yyyy-mm-dd") %> */'
-      },
-
       home: {
         src: ['<%= dirs.src %>/home/*.js'],
         dest: '<%= dirs.dest %>/javascript/home.js'
@@ -60,7 +59,7 @@ module.exports = function (grunt) {
 
     min: {
       dist: {
-        src: ['lib/**/*.js'],
+        src: ['<%= dirs.dest %>/javascript/**/*.js'],
         dest: '<%= dirs.dest %>/javascript/*.min.js'
       }
     },
@@ -138,9 +137,7 @@ module.exports = function (grunt) {
     copy: {
       dist: {
         files: {
-          "<%= dir.dest %>/javascript": [
-            "third-party/jquery/jquery.min.js"
-          ]
+          '<%= dirs.dest %>/javascript/': 'third-party/**/*.js'
         }
       }
     }
@@ -152,6 +149,6 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-exec');
 
-  grunt.registerTask('deploy', 'lint jade stylus concat min copy');
+  grunt.registerTask('deploy', 'lint jade stylus concat min copy exec');
   grunt.registerTask('default', 'lint jade stylus concat copy');
 };
