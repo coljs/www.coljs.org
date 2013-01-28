@@ -92,7 +92,7 @@ module.exports = function (grunt) {
 
     watch: {
       files: ['<%= dirs.src %>/**/*', 'content/**/*'],
-      task: 'default'
+      tasks: ['default']
     },
 
     exec: {
