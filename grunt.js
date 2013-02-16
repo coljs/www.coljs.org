@@ -1,4 +1,5 @@
-var fs = require('fs');
+var fs    = require('fs');
+var path  = require('path');
 
 module.exports = function (grunt) {
 
@@ -7,9 +8,28 @@ module.exports = function (grunt) {
   var minifyOpts = {};
   var jadeFiles = {};
   var stylusFiles = {};
-  var stylusPaths = [];
+  var importPaths = [];
+  var sassFiles = {};
 
-  //Builds options for frameworks used to avoid naming files individually
+  var dirs = {
+    src: 'lib',
+    dest: 'public'
+  };
+
+  function prepareSassFiles(page) {
+    var files = fs.readdirSync(dirs.src + '/' + page);
+    files = files.filter(function(element, index, array) {
+      if (path.extname(element) == '.sass') return true;
+      return false;
+    });
+
+    files = files.map(function(file) {
+        return dirs.src + '/' + page + '/' + file;
+    });
+
+    sassFiles[dirs.dest + '/styles/' + page + '.css' ] = files.join(' ');
+  }
+
   var pages = fs.readdirSync('./lib');
   pages.forEach(function(page) {
     if (page == 'layout') return;
@@ -26,8 +46,15 @@ module.exports = function (grunt) {
 
     jadeFiles['<%= dirs.dest %>/' + page + '.html'] = ['<%= dirs.src %>/' + page + '/*.jade'];
     stylusFiles['<%= dirs.dest %>/styles/' + page + '.css' ] = '<%= dirs.src %>/' + page + '/*.styl';
-    stylusPaths.push('<%= dirs.src %>/' + page);
+
+    prepareSassFiles(page);
+
+    importPaths.push(dirs.src + '/' + page);
   });
+
+  //Makes it available to exec tasks
+  grunt.sassFiles = sassFiles;
+  grunt.importPaths = importPaths;
 
   // Project configuration.
   grunt.initConfig({
@@ -38,10 +65,7 @@ module.exports = function (grunt) {
               '<%= grunt.template.today("yyyy-mm-dd") %> */'
     },
 
-    dirs: {
-      src: 'lib',
-      dest: 'public'
-    },
+    dirs: dirs,
 
     lint: {
       all: ['grunt.js', '<%= dirs.src %>/**/*.js']
@@ -80,7 +104,7 @@ module.exports = function (grunt) {
       compile: {
         options: {
           /* paths for @import() to look for */
-          paths: stylusPaths,
+          paths: importPaths,
           urlfunc: 'embedurl' // use embedurl('test.png') in our code to trigger Data URI embedding
           /*use: [
             require('blah') // use stylus plugin at compile time
@@ -109,6 +133,19 @@ module.exports = function (grunt) {
       deploy: {
         command: 'git push origin HEAD:gh-pages 2>&1',
         stdout: true
+      },
+
+      compass: {
+        command: function (grunt) {
+          var cmd = 'compass compile . ';
+          Object.keys(grunt.sassFiles).forEach(function(dest) {
+            cmd +=  grunt.sassFiles[dest];
+          });
+
+          cmd += ' --css-dir ' + grunt.config.get('dirs').dest + '/styles';
+          return cmd;
+        },
+        stdout: true
       }
     },
 
@@ -123,10 +160,10 @@ module.exports = function (grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-jade');
   grunt.loadNpmTasks('grunt-contrib-stylus');
-  grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-exec');
 
   grunt.registerTask('deploy', 'lint jade stylus concat min copy exec');
-  grunt.registerTask('default', 'lint jade stylus concat copy');
+  grunt.registerTask('default', 'jade stylus exec:compass concat copy');
+  //grunt.registerTask('compile', 'exec:compass');
 };
